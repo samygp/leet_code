@@ -56,7 +56,34 @@ class Tree:
                     setattr(n, side, Node(elem))
                 n = child
     
-    def distance_between_nodes(self, a, b):
+    def distance_between_nodes_bst(self, a, b):
+        def distance_to(ancestor, num):
+            dist = 0
+            curr = ancestor
+            while curr is not None and curr.value != num:
+                dist += 1
+                curr = curr.left if num < curr.value else curr.right
+            if curr is None:
+                return -1
+            return dist
+        if a == b:
+            return 0
+        ancestor = None
+        queue = [self.head]
+        while ancestor is None:
+            nxt = queue.pop(0)
+            v = nxt.value
+            if v == a or v == b or a < v < b or b < v < a:
+                ancestor = nxt
+                queue = []
+        dist_a = distance_to(ancestor, a)
+        dist_b = distance_to(ancestor, b)
+        if dist_a == -1 or dist_b == -1:
+            return -1
+        return dist_a + dist_b
+        
+
+    def distance_between_nodes_dfs(self, a, b):
         if self.head is None:
             return
         stack = [self.head]
@@ -103,4 +130,6 @@ class Tree:
 t = Tree()
 t.parse_bst([5,7,3,6,2,1,4,8])
 
-print(t.lca(5, 8))
+print(t.distance_between_nodes_bst(5, 8))
+print(t.distance_between_nodes_bst(2, 8))
+print(t.distance_between_nodes_bst(1, 6))
