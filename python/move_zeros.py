@@ -9,17 +9,18 @@ Minimize the total number of operations.
 """
 
 def move_zeros(nums):
-    i, j = 0, len(nums)-1
-    while i < j:
+    i, j = 0, 0
+    ops = 0
+    while j < len(nums):
         while nums[i] != 0:
             i += 1
-        while i < j and nums[j] == 0:
-            j -= 1
-        if i < j:
-            tmp = nums[i]
+        while j < len(nums) and nums[j] == 0:
+            j += 1
+        if j < len(nums):
+            ops += 1
             nums[i] = nums[j]
-            nums[j] = tmp
-    print(nums)
+            nums[j] = 0
+    print(nums, f"\n{ops} operations")
 
 nums = [0, 0, 0, 2, 0, 1, 3, 4, 0, 0]
 move_zeros(nums)
